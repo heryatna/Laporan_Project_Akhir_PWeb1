@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pemesanan Hotel</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Lora:wght@400;700&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .navbar {
+            background-color: rgba(255, 255, 255, 0.95) !important;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-brand {
+            font-weight: bold;
+            font-size: 1.5rem;
+            color: #007bff !important;
+        }
+
+        .navbar-nav .nav-link {
+            color: #555 !important;
+            font-size: 1rem;
+            margin: 0 0.5rem;
+            transition: color 0.2s ease;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: #007bff !important;
+        }
+
+        .navbar .btn {
+            padding: 0.4rem 1rem;
+        }
+
+        .container-fluid {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .card {
+            display: flex;
+            width: 90%;
+            max-width: 1200px;
+            background-color: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            flex-direction: row;
+        }
+
+        .card-image {
+            flex: 1;
+            background: url('image/depanhotel4.JPG') no-repeat center center;
+            background-size: cover;
+            min-height: 500px;
+        }
+
+        .form-content {
+            flex: 1;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .form-header {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .form-header h1 {
+            font-size: 2rem;
+            color: #343a40;
+            margin: 0;
+        }
+
+        .form {
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .form-label {
+            font-weight: bold;
+            color: #495057;
+            font-size: 0.9rem;
+        }
+
+        .form-control,
+        .form-select {
+            border: 1px solid #ced4da;
+            border-radius: 10px;
+            padding: 10px;
+            font-size: 0.9rem;
+        }
+
+        textarea.form-control {
+            resize: none;
+            height: 80px;
+        }
+
+        .form-check-label {
+            font-size: 0.9rem;
+            color: #495057;
+        }
+
+        .btn {
+            font-size: 0.9rem;
+            border-radius: 10px;
+            margin-right: 10px;
+            padding: 10px 20px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .btn-outline-info {
+            color: #0d6efd;
+            border-color: #0d6efd;
+        }
+
+        .btn-outline-info:hover {
+            background-color: #0d6efd;
+            color: #ffffff;
+        }
+
+        .btn-success {
+            background-color: #198754;
+            border-color: #198754;
+        }
+
+        .btn-success:hover {
+            background-color: #157347;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+            border-color: #dc3545;
+        }
+
+        .btn-danger:hover {
+            background-color: #bb2d3b;
+        }
+
+        .history-entry {
+            padding: 15px;
+            border: 1px solid #ced4da;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            background-color: #ffffff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+
+        .history-entry:hover {
+            transform: scale(1.02);
+        }
+
+        .history-entry p {
+            margin: 5px 0;
+            font-size: 0.9rem;
+            color: #343a40;
+        }
+
+        hr {
+            border: none;
+            height: 1px;
+            background-color: #dee2e6;
+            margin: 10px 0;
+        }
+
+        .d-flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .d-flex .btn {
+            flex: 1;
+            margin: 0 5px;
+        }
+
+        h2 {
+            font-size: 1.2rem;
+            color: #343a40;
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        #riwayatPemesanan {
+            margin-top: 20px;
+            max-height: 400px;
+            overflow-y: auto;
+            padding: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 10px;
+            background-color: #f8f9fa;
+        }
+
+        @media (max-width: 768px) {
+            .card {
+                flex-direction: column;
+            }
+
+            .card-image {
+                min-height: 300px;
+            }
+
+            .form-content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <a class="navbar-brand" href="home.html">Kawitana</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item"><a class="nav-link" href="home.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="home.html#destinasi">Sudut Destinasi</a></li>
+                    <li class="nav-item"><a class="nav-link" href="home.html#Gallery">Gallery</a></li>
+                    <li class="nav-item"><a class="nav-link" href="detail.html">Kamar</a></li>
+                    <li class="nav-item"><a class="nav-link" href="home.html#contact">Contact us</a></li>
+                </ul>
+                <div id="login-form">
+                    <a class="btn btn-primary me-2" href="loginpage.html">Daftar</a>
+                    <a class="btn btn-outline-primary" href="loginpage.html">Log In</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-image"></div>
+            <div class="form-content">
+                <div class="form-header">
+                    <h1>Form Pemesanan Hotel</h1>
+                </div>
+                <div class="p-4">
+                    <form class="form" method="post" action="" form id="bookingForm">
+                        <!-- ID Pemesan -->
+                        <div class="mb-3">
+                            <label for="kd_ps" class="form-label">ID Pemesan:</label>
+                            <input type="number" readonly class="form-control" name="kd_ps" id="kd_ps" value="">
+                        </div>
+
+                        <!-- Nama Pemesan -->
+                        <div class="mb-3">
+                            <label for="nama" class="form-label">Nama Pemesan:</label>
+                            <input type="text" class="form-control" id="nama" name="nama"
+                                placeholder="Masukkan nama Anda" required>
+                        </div>
+
+                        <!-- Nomor Identitas -->
+                        <div class="mb-3">
+                            <label for="no_identitas" class="form-label">Nomor Identitas:</label>
+                            <input type="text" class="form-control" id="no_identitas" name="no_identitas"
+                                placeholder="Masukkan nomor identitas" required>
+                        </div>
+
+                        <!-- Nomor HP -->
+                        <div class="mb-3">
+                            <label for="no_hp" class="form-label">No. HP:</label>
+                            <input type="tel" class="form-control" id="no_hp" name="no_hp"
+                                placeholder="Masukkan nomor HP" required>
+                        </div>
+
+                        <!-- Tipe Kamar -->
+                        <div class="mb-3">
+                            <label for="paket" class="form-label">Tipe Kamar:</label>
+                            <select name="paket" id="paket" class="form-select" required>
+                                <option value="">Pilih Tipe Kamar</option>
+                                <option value="Standard" data-harga="270000">Standard Room - Rp 270.000</option>
+                                <option value="Deluxe" data-harga="365000">Deluxe Room - Rp 365.000</option>
+                                <option value="Family" data-harga="532000">Family Room - Rp 532.000</option>
+                            </select>
+                        </div>
+
+                        <!-- Harga -->
+                        <div class="mb-3">
+                            <label for="harga" class="form-label">Harga:</label>
+                            <input type="text" readonly class="form-control" id="harga" name="harga">
+                        </div>
+
+                        <!-- Tanggal Pesan -->
+                        <div class="mb-3">
+                            <label for="tanggal" class="form-label">Tanggal Pesan:</label>
+                            <input type="date" class="form-control" id="tanggal" name="tanggal" required>
+                        </div>
+
+                        <!-- Durasi Menginap -->
+                        <div class="mb-3">
+                            <label for="durasi" class="form-label">Durasi Menginap (Malam):</label>
+                            <input type="number" class="form-control" id="durasi" name="durasi"
+                                placeholder="Masukkan jumlah malam" required>
+                        </div>
+
+                        <!-- Termasuk Breakfast -->
+                        <div class="form-check mb-3">
+                            <input type="checkbox" class="form-check-input" id="breakfast" name="breakfast">
+                            <label for="breakfast" class="form-check-label">Termasuk Breakfast</label>
+                        </div>
+
+                        <!-- Total Bayar -->
+                        <div class="mb-3">
+                            <label for="total" class="form-label">Total Bayar:</label>
+                            <input type="text" readonly class="form-control" id="total" name="total">
+                        </div>
+
+                        <!-- Catatan Tambahan -->
+                        <div class="mb-3">
+                            <label for="catatan" class="form-label">Catatan Tambahan:</label>
+                            <textarea class="form-control" id="catatan" name="catatan"
+                                placeholder="Masukkan catatan tambahan"></textarea>
+                        </div>
+
+                        <!-- Syarat dan Ketentuan -->
+                        <div class="form-check mb-4">
+                            <input type="checkbox" class="form-check-input" id="checkbox1" name="checkbox1" required>
+                            <label class="form-check-label" for="checkbox1">
+                                Saya dan/atau rombongan telah membaca, memahami, dan setuju berdasarkan syarat dan
+                                ketentuan yang telah ditetapkan
+                            </label>
+                        </div>
+
+                        <!-- Tombol -->
+                        <div class="d-flex">
+                            <button type="button" class="btn btn-outline-info" onclick="hitungTotal()">Hitung
+                                Total</button>
+                            <div>
+                                <button type="submit" class="btn btn-success" name="simpan">Pesan Tiket</button>
+                                <button type="reset" class="btn btn-danger" name="cancel">Cancel</button>
+                            </div>
+                        </div>
+                    </form>
+
+                    <!-- Riwayat Pemesanan -->
+                    <h2 class="mt-5">Riwayat Pemesanan</h2>
+                    <div id="riwayatPemesanan"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function hitungTotal() {
+            const paket = document.getElementById('paket');
+            const hargaPerMalam = paket.options[paket.selectedIndex].getAttribute('data-harga');
+            const durasi = parseInt(document.getElementById('durasi').value) || 0;
+            const breakfast = document.getElementById('breakfast').checked ? 80000 : 0;
+
+            if (!hargaPerMalam) {
+                alert('Pilih tipe kamar terlebih dahulu!');
+                return;
+            }
+
+            let total = (parseInt(hargaPerMalam) + breakfast) * durasi;
+
+            if (durasi > 3) {
+                const diskon = total * 0.1;
+                total -= diskon;
+            }
+
+            document.getElementById('harga').value = hargaPerMalam;
+            document.getElementById('total').value = total;
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            if (Notification.permission !== 'granted') {
+                Notification.requestPermission();
+            }
+
+            const bookingForm = document.getElementById('bookingForm');
+            bookingForm.addEventListener('submit', function (event) {
+                event.preventDefault();
+
+                const nama = document.getElementById('nama').value;
+                const tanggal = document.getElementById('tanggal').value;
+                const durasi = document.getElementById('durasi').value;
+                const paket = document.getElementById('paket').value;
+                const harga = document.getElementById('total').value;
+                const catatan = document.getElementById('catatan').value;
+
+                const id = Date.now();
+
+                let bookingHistory = JSON.parse(localStorage.getItem('bookingHistory')) || [];
+                bookingHistory.push({ id, nama, tanggal, durasi, paket, harga, catatan });
+                localStorage.setItem('bookingHistory', JSON.stringify(bookingHistory));
+
+                bookingForm.reset();
+
+                showNotification('Pemesanan Berhasil!', `Pemesanan oleh ${nama} untuk ${durasi} malam berhasil disimpan.`);
+
+                alert('Pemesanan berhasil disimpan!');
+            });
+        });
+
+        function showNotification(title, body) {
+            if (Notification.permission === 'granted') {
+                new Notification(title, {
+                    body: body,
+                    icon: 'image/depanhotel4.jpg'
+                });
+            } else {
+                console.log('Notification permission denied.');
+            }
+        }
+
+        function deleteBooking(id) {
+            let bookingHistory = JSON.parse(localStorage.getItem('bookingHistory')) || [];
+            const entry = bookingHistory.find(entry => entry.id === id);
+            if (entry) {
+                bookingHistory = bookingHistory.filter(entry => entry.id !== id);
+                localStorage.setItem('bookingHistory', JSON.stringify(bookingHistory));
+
+                showNotification('Pemesanan Dihapus!', `Pemesanan oleh ${entry.nama} telah dihapus.`);
+            } else {
+                alert('Pemesanan tidak ditemukan!');
+            }
+        }
+
+        function editBooking(id) {
+            let bookingHistory = JSON.parse(localStorage.getItem('bookingHistory')) || [];
+            const entry = bookingHistory.find(entry => entry.id === id);
+            if (!entry) {
+                alert('Pemesanan tidak ditemukan!');
+                return;
+            }
+
+            document.getElementById('nama').value = entry.nama;
+            document.getElementById('tanggal').value = entry.tanggal;
+            document.getElementById('durasi').value = entry.durasi;
+            document.getElementById('paket').value = entry.paket;
+            document.getElementById('total').value = entry.harga;
+            document.getElementById('catatan').value = entry.catatan;
+
+            deleteBooking(id);
+
+            showNotification('Edit Pemesanan!', `Pemesanan oleh ${entry.nama} sedang diperbarui.`);
+        }
+
+        function renderBookingHistory() {
+            const riwayatPemesanan = document.getElementById('riwayatPemesanan');
+            let bookingHistory = JSON.parse(localStorage.getItem('bookingHistory')) || [];
+
+            riwayatPemesanan.innerHTML = '';
+
+            if (bookingHistory.length === 0) {
+                riwayatPemesanan.innerHTML = '<p>Tidak ada riwayat pemesanan.</p>';
+                return;
+            }
+
+            bookingHistory.forEach(entry => {
+                const div = document.createElement('div');
+                div.className = 'history-entry';
+
+                div.innerHTML = `
+            <p><strong>Nama:</strong> ${entry.nama}</p>
+            <p><strong>Tanggal Pesan:</strong> ${entry.tanggal}</p>
+            <p><strong>Durasi Menginap:</strong> ${entry.durasi} malam</p>
+            <p><strong>Tipe Kamar:</strong> ${entry.paket}</p>
+            <p><strong>Total Bayar:</strong> Rp ${entry.harga}</p>
+            <p><strong>Catatan:</strong> ${entry.catatan || '-'}</p>
+            <hr>
+            <div class="d-flex">
+                <button class="btn btn-outline-info" onclick="editBooking(${entry.id})">Edit</button>
+                <button class="btn btn-danger" onclick="deleteBooking(${entry.id})">Hapus</button>
+            </div>
+        `;
+
+                riwayatPemesanan.appendChild(div);
+            });
+        }
+
+        bookingForm.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const nama = document.getElementById('nama').value;
+            const tanggal = document.getElementById('tanggal').value;
+            const durasi = document.getElementById('durasi').value;
+            const paket = document.getElementById('paket').value;
+            const harga = document.getElementById('total').value;
+            const catatan = document.getElementById('catatan').value;
+
+            const id = Date.now();
+
+            let bookingHistory = JSON.parse(localStorage.getItem('bookingHistory')) || [];
+            bookingHistory.push({ id, nama, tanggal, durasi, paket, harga, catatan });
+            localStorage.setItem('bookingHistory', JSON.stringify(bookingHistory));
+
+            bookingForm.reset();
+
+            showNotification('Pemesanan Berhasil!', `Pemesanan oleh ${nama} untuk ${durasi} malam berhasil disimpan.`);
+
+            renderBookingHistory();
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            if (Notification.permission !== 'granted') {
+                Notification.requestPermission();
+            }
+
+            renderBookingHistory();
+
+        });
+
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
